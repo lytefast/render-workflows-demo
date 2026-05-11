@@ -1,5 +1,6 @@
 from render_sdk import Workflows, Retry
 import asyncio
+import os
 import random
 
 app = Workflows()
@@ -50,6 +51,14 @@ async def double_flip_coin() -> int:
         flip_coin_2(),
     )
     return result1 == result2
+
+
+@app.task
+def print_env_vars() -> dict[str, str]:
+    env_vars = dict(os.environ)
+    for key, value in env_vars.items():
+        print(f"{key}={value}")
+    return env_vars
 
 
 if __name__ == "__main__":
